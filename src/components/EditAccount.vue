@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <h2 class="account__header">Account: {{account.name}}</h2>
+    <h2 class="account__header">Account: {{account.name}} </h2>
     <h3 class="account__balance">
       Balance: ${{account.balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}
     </h3>
@@ -9,11 +9,11 @@
       <li v-for="(percent, category, id) in account.percentageByCategory" :key="id">
         <span class="account__key">{{category}}:&nbsp;</span>
         <span class="account__value">
-          ${{((percent / 100) * account.balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}
+          {{percent.toFixed(2)}} %
         </span>
       </li>
     </ul>
-    <div class="account__edit" @click="edit">Edit</div>
+    <div class="account__save" @click="save">Save</div>
   </div>
 </template>
 
@@ -25,9 +25,8 @@ export default {
     account: Object,
   },
   methods: {
-    edit() {
-      const name = this.account.name;
-      this.$router.push({name: 'edit', params: { name } });
+    save() {
+
     }
   }
 };
@@ -47,7 +46,7 @@ export default {
   .account__categories
     font-size: 1.5em
 
-  .account__edit
+  .account__save
     margin: 2% auto
     padding: .5em 1em
     border-radius: .25em
