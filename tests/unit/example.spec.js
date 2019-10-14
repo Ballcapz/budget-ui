@@ -1,12 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import HelloWorld from '@/components/HelloWorld.vue';
+import Account from '@/components/Account.vue';
 
-describe('HelloWorld.vue', () => {
+describe('Account.vue', () => {
   it('renders props.msg when passed', () => {
-    const msg = 'new message';
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg },
-    });
-    expect(wrapper.text()).toMatch(msg);
+    const wrapper = shallowMount(Account);
+    expect(wrapper.isVueInstance()).toBe(true);
   });
 });

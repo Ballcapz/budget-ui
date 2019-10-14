@@ -1,18 +1,42 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="account-container" v-for="account in accounts" :key="account.name">
+      <Account :account="account" />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import Account from '@/components/Account.vue';
 
 export default {
   name: 'home',
+  data: () => ({
+    isLoading: true,
+  }),
   components: {
-    HelloWorld,
+    Account,
+  },
+  computed: {
+    accounts() {
+      return this.$store.state.accounts;
+    },
+  },
+  methods: {
+    async getAccounts() {
+      try {
+        this.isLoading = true;
+        await this.$store.dispatch('getAccounts');
+      } catch (ex) {
+        console.error(ex);
+      }
+      this.accounts = this.$store.state.accounts;
+      this.isLoading = false;
+    },
+  },
+  mounted() {
+    this.getAccounts();
   },
 };
 </script>
