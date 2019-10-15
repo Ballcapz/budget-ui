@@ -2,14 +2,14 @@
   <form class="account">
     <h2 class="account__header">Account: {{account.name}} </h2>
     <h3 class="account__balance">
-      Balance: $ <input type="text" :value="account.balance" name="balance" />
+      Balance: $ <input type="text" :value="!isNaN(account.balance) ? account.balance : ''" name="balance" @input="updateBalance" />
     </h3>
     <h3 class="account__categories">Categories</h3>
     <ul>
       <li v-for="(percent, category, id) in account.percentageByCategory" :key="id">
         <span class="account__key">{{category}}:&nbsp;</span>
         <span class="account__value">
-          <input type="text" :value="percent" :id="`percent-${category}`" /> %
+          <input type="text" :value="!isNaN(percent) ? percent : ''" :id="`${category}`" @input="updatePercent" /> %
         </span>
       </li>
     </ul>
@@ -35,9 +35,25 @@ export default {
     ],
   }),
   methods: {
-    save() {
+    async save(e) {
+      e.preventDefault();
       // save the singleAccount in the store
-      console.log(this.$props.account);
+      try {
+        await this.$store.dispatch('saveEdits');
+      } catch (ex) {
+        console.error(ex);
+      }
+      this.$router.push({ path: '/' });
+    },
+    updateBalance(e) {
+      this.$store.dispatch('updateBalance', e.target.value);
+    },
+    updatePercent(e) {
+      const payload = {
+        category: e.target.id,
+        percent: e.target.value,
+      };
+      this.$store.dispatch('updatePercent', payload);
     },
   },
 };

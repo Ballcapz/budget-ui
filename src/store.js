@@ -20,6 +20,12 @@ export default new Vuex.Store({
     GET_ACCOUNT_BY_NAME(state, payload) {
       Vue.set(state, 'singleAccount', payload);
     },
+    UPDATE_BALANCE(state, payload) {
+      Vue.set(state.singleAccount, 'balance', parseInt(payload));
+    },
+    UPDATE_PERCENT(state, payload) {
+      Vue.set(state.singleAccount.percentageByCategory, `${payload.category}`, parseFloat(payload.percent));
+    },
   },
   actions: {
     async getAccounts({ commit }) {
@@ -37,6 +43,29 @@ export default new Vuex.Store({
         .then((account) => {
           commit('GET_ACCOUNT_BY_NAME', account);
         });
+    },
+    updateBalance({ commit }, payload) {
+      commit('UPDATE_BALANCE', payload);
+    },
+    updatePercent({ commit }, payload) {
+      commit('UPDATE_PERCENT', payload);
+    },
+    async saveEdits({ commit, state }) {
+      await axios({
+        method: 'post',
+        url: `${baseURI}/api/Account/edit`,
+        data: {
+          Name: state.singleAccount.name,
+          Balance: state.singleAccount.balance,
+          PercentageByCategory: state.singleAccount.percentageByCategory,
+        },
+        referrer: 'no-referrer',
+      })
+        .then(response => response.data)
+        .then((edited) => {
+          console.log(edited);
+        })
+        .catch(ex => console.error(ex));
     },
   },
 });
