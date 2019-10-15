@@ -26,10 +26,10 @@ export default {
   },
   methods: {
     edit() {
-      const name = this.account.name;
-      this.$router.push({name: 'edit', params: { name } });
-    }
-  }
+      const { name } = this.account;
+      this.$router.push({ name: 'edit', params: { name } });
+    },
+  },
 };
 </script>
 

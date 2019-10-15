@@ -23,6 +23,6 @@ export default new Router({
       path: '/edit/:name',
       name: 'edit',
       component: () => import('./views/Edit.vue'),
-    }
+    },
   ],
 });

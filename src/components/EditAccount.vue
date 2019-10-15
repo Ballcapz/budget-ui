@@ -1,20 +1,20 @@
 <template>
-  <div class="account">
+  <form class="account">
     <h2 class="account__header">Account: {{account.name}} </h2>
     <h3 class="account__balance">
-      Balance: ${{account.balance.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}
+      Balance: $ <input type="text" :value="account.balance" name="balance" />
     </h3>
     <h3 class="account__categories">Categories</h3>
     <ul>
       <li v-for="(percent, category, id) in account.percentageByCategory" :key="id">
         <span class="account__key">{{category}}:&nbsp;</span>
         <span class="account__value">
-          {{percent.toFixed(2)}} %
+          <input type="text" :value="percent" :id="`percent-${category}`" /> %
         </span>
       </li>
     </ul>
-    <div class="account__save" @click="save">Save</div>
-  </div>
+    <button class="account__save" @click="save">Save</button>
+  </form>
 </template>
 
 <script>
@@ -24,11 +24,22 @@ export default {
   props: {
     account: Object,
   },
+  data: () => ({
+    name: '',
+    balance: 0,
+    categories: [
+      {
+        category: '',
+        percent: '',
+      },
+    ],
+  }),
   methods: {
     save() {
-
-    }
-  }
+      // save the singleAccount in the store
+      console.log(this.$props.account);
+    },
+  },
 };
 </script>
 

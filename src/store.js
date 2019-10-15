@@ -11,7 +11,7 @@ const baseURI = 'https://localhost:44367';
 export default new Vuex.Store({
   state: {
     accounts: [],
-    singleAccount: {}
+    singleAccount: {},
   },
   mutations: {
     GET_ACCOUNTS(state, payload) {
@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     GET_ACCOUNT_BY_NAME(state, payload) {
       Vue.set(state, 'singleAccount', payload);
-    }
+    },
   },
   actions: {
     async getAccounts({ commit }) {
@@ -34,9 +34,9 @@ export default new Vuex.Store({
       await axios
         .get(`${baseURI}/api/Account/${payload}`)
         .then(response => response.data)
-        .then(account => {
+        .then((account) => {
           commit('GET_ACCOUNT_BY_NAME', account);
         });
-    }
+    },
   },
 });

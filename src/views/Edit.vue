@@ -10,12 +10,12 @@ import EditAccount from '@/components/EditAccount.vue';
 export default {
   name: 'Edit',
   components: {
-    EditAccount
+    EditAccount,
   },
   computed: {
     account() {
       return this.$store.state.singleAccount;
-    }
+    },
   },
   methods: {
     async getAccountDetails() {
@@ -24,13 +24,12 @@ export default {
       } catch (ex) {
         console.error(ex);
       }
-
-    }
+    },
   },
   mounted() {
     this.getAccountDetails();
-  }
-}
+  },
+};
 </script>
 
 <style>
